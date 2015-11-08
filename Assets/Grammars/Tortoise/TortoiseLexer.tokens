@@ -1,0 +1,9 @@
+MOV=1
+ROT=2
+DIR=3
+VAL=4
+INT=5
+NEWLINE=6
+WS=7
+'mov'=1
+'rot'=2
