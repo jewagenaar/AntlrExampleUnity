@@ -1,7 +1,14 @@
 ﻿using UnityEngine;
+using System;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using System.Collections.Generic;
+
+#region Aliases
+using MoveCommand = TortoiseProgram.MoveCommand;
+using MoveDirection = TortoiseProgram.MoveCommand.Direction;
+using RotateCommand = TortoiseProgram.RotateCommand;
+#endregion
 
 /**
  * Just an implementation of the plain old builder design pattern. 
@@ -43,15 +50,17 @@ public class TortoiseCompiler
 
 	public TortoiseCompiler AddMoveCommand(string direction, string distance)
 	{
-		TortoiseProgram.MoveCommand.Direction dir = TortoiseProgram.MoveCommand.Direction.BWD;
-		if(direction.Equals(TortoiseProgram.MoveCommand.Direction.FWD.ToString()))
+		MoveDirection dir = MoveDirection.BWD;
+		string fwdString = Enum.GetName(typeof(MoveDirection), MoveDirection.FWD);
+
+		if(direction.ToUpper().Equals(fwdString))
 		{
-			dir = TortoiseProgram.MoveCommand.Direction.FWD;
+			dir = MoveDirection.FWD;
 		}
 
 		float dist = float.Parse(distance);
 
-		TortoiseProgram.MoveCommand moveCommand = new TortoiseProgram.MoveCommand(dir, dist);
+		MoveCommand moveCommand = new MoveCommand(dir, dist);
 		_commands.Add(moveCommand);
 
 		return this;
@@ -61,7 +70,7 @@ public class TortoiseCompiler
 	public TortoiseCompiler AddRotateCommand(string angle)
 	{
 		float a = float.Parse(angle);
-		TortoiseProgram.RotateCommand rotateCommand = new TortoiseProgram.RotateCommand(a);
+		RotateCommand rotateCommand = new RotateCommand(a);
 
 		_commands.Add(rotateCommand);
 
