@@ -43,6 +43,10 @@ public class TortoiseProgram
 			Vector3 v = gameObject.transform.up * d;
 			gameObject.transform.Translate(v);
 
+			#if DEBUG
+			Debug.Log ("Move " + _direction + " " + _distance);
+			#endif
+
 			return null;
 		}
 	}
@@ -60,6 +64,10 @@ public class TortoiseProgram
 		public IEnumerator Execute(GameObject gameObject)
 		{
 			gameObject.transform.Rotate(new Vector3(0, 0, _angle));
+
+			#if DEBUG
+			Debug.Log ("Rotate " + _angle);
+			#endif
 
 			return null;
 		}
@@ -81,7 +89,7 @@ public class TortoiseProgram
 	{
 		while(_pc < _commands.Count)
 		{
-			Command nextCommand = _commands[_pc];
+			Command nextCommand = _commands[_pc++];
 			yield return nextCommand.Execute(gameObject);
 		}
 	}

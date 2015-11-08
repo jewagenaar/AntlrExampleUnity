@@ -1,12 +1,17 @@
 grammar Tortoise;
 
+@members 
+{
+	public TortoiseCompiler Compiler = new TortoiseCompiler();
+}
+
 prog : cmd+ ;
 
 cmd : (move | rotate) NEWLINE ;
 
-move : MOV DIR VAL ;
+move : MOV DIR VAL { Compiler.AddMoveCommand($DIR.text, $VAL.text); };
 
-rotate : ROT VAL ; 
+rotate : ROT VAL { Compiler.AddRotateCommand($VAL.text); }; 
 
 MOV : 'mov' ;
 ROT : 'rot' ;

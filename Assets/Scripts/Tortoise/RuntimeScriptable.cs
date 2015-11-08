@@ -3,13 +3,13 @@ using System.Collections;
 
 public class RuntimeScriptable : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	private string _programCode = "mov fwd 3\n";
+
+	private TortoiseProgram _program;
+
+	void Start () 
+	{
+		_program = TortoiseCompiler.Compile(_programCode);
+		StartCoroutine(_program.Run(gameObject));
 	}
 }

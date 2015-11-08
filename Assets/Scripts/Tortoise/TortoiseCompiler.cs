@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using Antlr4.Runtime;
+using Antlr4.Runtime.Misc;
 using System.Collections.Generic;
 
 /**
@@ -7,10 +9,35 @@ using System.Collections.Generic;
 public class TortoiseCompiler
 {
 	private List<TortoiseProgram.Command> _commands;
+	private List<TortoiseProgram.Command> Commands
+	{
+		get
+		{
+			return _commands;
+		}
+	}
+
 
 	public TortoiseCompiler()
 	{
 		_commands = new List<TortoiseProgram.Command>();
+	}
+
+
+	public static TortoiseProgram Compile(string source)
+	{
+		AntlrInputStream antlerStream = new AntlrInputStream(source);
+		TortoiseLexer lexer = new TortoiseLexer(antlerStream);
+		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+		TortoiseParser parser = new TortoiseParser(tokenStream);	
+
+		parser.prog();
+
+		TortoiseCompiler compiler = parser.Compiler;
+
+		TortoiseProgram program = new TortoiseProgram(compiler.Commands);
+
+		return program;
 	}
 
 
