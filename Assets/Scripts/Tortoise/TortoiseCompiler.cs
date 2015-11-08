@@ -38,10 +38,9 @@ public class TortoiseCompiler
 		CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 		TortoiseParser parser = new TortoiseParser(tokenStream);	
 
-		parser.prog();
+		parser.prog(); // <-- compile actually happens here (see Assets/Grammars/Tortoise/Tortoise.g4
 
 		TortoiseCompiler compiler = parser.Compiler;
-
 		TortoiseProgram program = new TortoiseProgram(compiler.Commands);
 
 		return program;

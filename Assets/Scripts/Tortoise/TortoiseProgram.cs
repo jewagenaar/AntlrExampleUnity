@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class TortoiseProgram  
 {
-	#region Program Command
+	#region Program Commands
 	public interface Command
 	{
 		IEnumerator Execute(GameObject gameObject);
@@ -40,7 +40,7 @@ public class TortoiseProgram
 				} break;
 			}
 
-			Vector3 v = gameObject.transform.up * d;
+			Vector3 v = Vector3.up * d;
 			gameObject.transform.Translate(v);
 
 			#if DEBUG
@@ -72,9 +72,10 @@ public class TortoiseProgram
 			return null;
 		}
 	}
-
 	#endregion
 
+
+	public static float EXECUTION_DELAY = 0.5f;
 
 	private List<Command> _commands;
 	private int _pc;
@@ -85,12 +86,21 @@ public class TortoiseProgram
 		_pc = 0;
 	}
 
+
 	public IEnumerator Run(GameObject gameObject)
 	{
 		while(_pc < _commands.Count)
 		{
+			yield return new WaitForSeconds(EXECUTION_DELAY);
+
 			Command nextCommand = _commands[_pc++];
 			yield return nextCommand.Execute(gameObject);
 		}
+	}
+
+
+	public void Reset()
+	{
+		_pc = 0;
 	}
 }
